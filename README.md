@@ -19,11 +19,12 @@
 	```
 
   - 因为没有配置secret，所以使用镜像部署时注意要在仓库设置为公共镜像 
+- 一个最终可用的工程：[https://github.com/butcoder/elasticweb](https://github.com/butcoder/elasticweb)
 
 ## 2. kind创建k8s集群并初始化
 - 2.1 kind安装
   
-	[https://iwiki.woa.com/pages/viewpage.action?pageId=1284249742](https://iwiki.woa.com/pages/viewpage.action?pageId=1284249742)
+	https://github.com/kubernetes-sigs/kind
 
 
 - 2.2 kind创建k8s集群
