@@ -57,7 +57,7 @@ func (r *ElasticWeb) Default() {
 }
 
 // TODO(user): change verbs to "verbs=create;update;delete" if you want to enable deletion validation.
-//+kubebuilder:webhook:path=/validate-elasticweb-com-bolingcavalry-v1-elasticweb,mutating=false,failurePolicy=fail,sideEffects=None,groups=elasticweb.com.bolingcavalry,resources=elasticwebs,verbs=create;update,versions=v1,name=velasticweb.kb.io,admissionReviewVersions=v1
+//+kubebuilder:webhook:path=/validate-elasticweb-com-bolingcavalry-v1-elasticweb,mutating=false,failurePolicy=fail,sideEffects=None,groups=elasticweb.com.bolingcavalry,resources=elasticwebs,verbs=create;update;delete,versions=v1,name=velasticweb.kb.io,admissionReviewVersions=v1
 
 var _ webhook.Validator = &ElasticWeb{}
 
@@ -81,10 +81,12 @@ func (r *ElasticWeb) ValidateUpdate(old runtime.Object) error {
 
 // ValidateDelete implements webhook.Validator so a webhook will be registered for the type
 func (r *ElasticWeb) ValidateDelete() error {
-	elasticweblog.Info("validate delete", "name", r.Name)
+	elasticweblog.Info("validate delete x", "name", r.Name)
 
 	// TODO(user): fill in your validation logic upon object deletion.
-	return nil
+
+	return r.validateDelete()
+	//return nil
 }
 
 func (r *ElasticWeb) validateElasticWeb() error {
@@ -107,4 +109,15 @@ func (r *ElasticWeb) validateElasticWeb() error {
 		elasticweblog.Info("e. SinglePodQPS is valid")
 		return nil
 	}
+}
+
+func (r *ElasticWeb) validateDelete() error {
+	var allErrs field.ErrorList
+	elasticweblog.Info("x. ValidateDelete")
+	err := field.Invalid(field.NewPath("Response").Child("Error"), *&r.Spec.SinglePodQPS, "x. test delete")
+	allErrs = append(allErrs, err)
+	return apierrors.NewInvalid(
+		schema.GroupKind{Group: "elasticweb.com.bolingcavalry", Kind: "ElasticWeb"},
+		r.Name,
+		allErrs)
 }

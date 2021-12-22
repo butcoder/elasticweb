@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: dev1
+  labels:
+    name: dev1
+---
+apiVersion: elasticweb.com.bolingcavalry/v1
+kind: ElasticWeb
+metadata:
+  namespace: dev1
+  name: elasticweb-sample
+spec:
+  # Add fields here
+  image: ccr.ccs.tencentyun.com/butcoder/tomcat
+  port: 30003
+  singlePodQPS: 300
+  #totalQPS: 600
